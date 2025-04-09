@@ -1,6 +1,7 @@
 package com.example.chatapplication.presentation.componant
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -29,7 +30,10 @@ fun TopBar(hasButtonBack : Boolean = false , title : String) {
                 Image(
                     painter = painterResource(id = R.drawable.back),
                     contentDescription = "Back",
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(8.dp).clickable {
+
+
+                    }
 
                 )
             }

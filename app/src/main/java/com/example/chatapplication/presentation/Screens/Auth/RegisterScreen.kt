@@ -25,17 +25,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.chatapplication.R
 import com.example.chatapplication.presentation.ViewModel.LoginViewModel
+import com.example.chatapplication.presentation.ViewModel.RegisterViewModel
 import com.example.chatapplication.presentation.componant.AuthButtons
 import com.example.chatapplication.presentation.componant.ChatAuthTextField
 import com.example.chatapplication.presentation.componant.TopBar
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier , navController:NavController , viewModel: LoginViewModel = hiltViewModel()) {
+fun RegisterScreen(modifier: Modifier = Modifier , navController:NavController , viewModel: RegisterViewModel = hiltViewModel()) {
     Scaffold(
-        topBar = { TopBar(title = "Login") }
+        topBar = { TopBar(title = "Register" , hasButtonBack = true) }
     ) { innerPadding ->
+        innerPadding
         Column(
-            modifier = modifier.fillMaxSize().padding(innerPadding)
+            modifier = modifier.fillMaxSize()
                 .paint(
                     painter = painterResource(id = R.drawable.background1),
                     contentScale = ContentScale.Crop
@@ -43,10 +45,6 @@ fun LoginScreen(modifier: Modifier = Modifier , navController:NavController , vi
             , horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(.4F))
-            Text(text = "Welcome Back! " , fontSize = 30.sp ,
-                fontWeight = FontWeight.Bold ,
-                color = Color.Black , modifier = modifier.align(Alignment.Start)
-                    .padding(12.dp))
             Spacer(modifier = Modifier.padding(10.dp))
             ChatAuthTextField(modifier ,
                 state = viewModel.emailState ,
@@ -54,21 +52,16 @@ fun LoginScreen(modifier: Modifier = Modifier , navController:NavController , vi
                 label = "Email")
             Spacer(modifier = Modifier.height(10.dp))
             ChatAuthTextField(modifier ,
+                state = viewModel.usernameState ,
+                error = viewModel.usernameerrorState.value ,
+                label = "Username")
+            Spacer(modifier = Modifier.height(10.dp))
+            ChatAuthTextField(modifier ,
                 state = viewModel.passwordState ,
                 error = viewModel.passworderrorState.value ,
                 label = "Password")
             Spacer(modifier = Modifier.padding(10.dp))
-            AuthButtons("Login" , onClick = { /*TODO*/ })
-            Spacer(modifier = Modifier.padding(10.dp))
-            Text(text = "or create account" ,
-                color = Color.Black ,
-                modifier = modifier.align(Alignment.CenterHorizontally)
-                    .clickable {
-                        navController.navigate("sign_up"){
-
-                        }
-
-                    })
+            AuthButtons("Sign up" , onClick = { /*TODO*/ })
 
         }
     }
