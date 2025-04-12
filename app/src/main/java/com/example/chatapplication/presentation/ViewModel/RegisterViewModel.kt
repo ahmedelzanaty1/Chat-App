@@ -3,15 +3,19 @@ package com.example.chatapplication.presentation.ViewModel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chatapplication.constants.Destinations
 import com.example.chatapplication.domain.entity.AppUser
+import com.example.chatapplication.domain.use.AddUserUseCase
 import com.example.chatapplication.domain.use.RegisterUseCase
 import com.example.chatapplication.presentation.base.BaseViewModel
+import com.example.chatapplication.presentation.utils.RegisterNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerUseCase: RegisterUseCase
+    private val registerUseCase: RegisterUseCase,
+    private val adduser : AddUserUseCase
 ) : BaseViewModel() {
 
     val emailState = mutableStateOf("")
@@ -20,6 +24,7 @@ class RegisterViewModel @Inject constructor(
     val passworderrorState = mutableStateOf("")
     val usernameState = mutableStateOf("")
     val usernameerrorState = mutableStateOf("")
+    val navigation = mutableStateOf<RegisterNavigation>(RegisterNavigation.Idle)
 
 
     fun Validate(): Boolean {
@@ -55,6 +60,15 @@ class RegisterViewModel @Inject constructor(
                                val newuser = user.let {
                                    AppUser(it.fullName, it.email, uid)
                                }
+                               launch {
+                                   adduser(newuser, onSuccess = {
+                                       hideLoading()
+                                       navigation.value = RegisterNavigation.Home
+                                   }, onError = {
+                                       hideLoading()
+                                       showError(it.message.toString())
+                                   })
+                               }
 
                            }, onError = {
                                hideLoading()
@@ -70,5 +84,9 @@ class RegisterViewModel @Inject constructor(
                }
            }
        }
+    fun navigateUp() {
+        navigation.value = RegisterNavigation.NavigationUp
+    }
+
     }
 

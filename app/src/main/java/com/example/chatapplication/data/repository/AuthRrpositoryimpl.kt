@@ -25,4 +25,22 @@ class AuthRrpositoryimpl(
         authOnlineDataSource.register(user, password, onSuccess, onError)
 
     }
+
+    override suspend fun addUser(
+        appUser: AppUser,
+        onSuccess: () -> Unit,
+        onError: (t: Throwable) -> Unit
+    ) {
+        authOnlineDataSource.addUser(appUser, onSuccess, onError)
+
+
+    }
+
+    override suspend fun getUser(
+        uid: String,
+        onSuccess: (AppUser) -> Unit,
+        onError: (t: Throwable) -> Unit
+    ) {
+        authOnlineDataSource.getUser(uid, onSuccess, onError)
+    }
 }

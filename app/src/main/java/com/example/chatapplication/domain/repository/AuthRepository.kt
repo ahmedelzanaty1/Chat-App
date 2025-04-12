@@ -11,6 +11,12 @@ interface AuthRepository {
                          onSuccess: (userid: String) -> Unit
                          , onError: (t : Throwable) -> Unit
     )
+    suspend fun addUser(appUser: AppUser , onSuccess: () -> Unit ,
+                        onError: (t : Throwable) -> Unit)
+
+    suspend fun getUser(uid : String , onSuccess: (AppUser) -> Unit ,
+                        onError: (t : Throwable) -> Unit
+                        )
 }
 
 interface AuthOnlineDataSource{
@@ -22,6 +28,12 @@ interface AuthOnlineDataSource{
     suspend fun register(user : AppUser,password: String ,
                          onSuccess: (userid: String) -> Unit
                          , onError: (t : Throwable) -> Unit
+    )
+    suspend fun addUser(appUser: AppUser , onSuccess: () -> Unit ,
+                        onError: (t : Throwable) -> Unit)
+
+    suspend fun getUser(uid : String , onSuccess: (AppUser) -> Unit ,
+                        onError: (t : Throwable) -> Unit
     )
 
 }
