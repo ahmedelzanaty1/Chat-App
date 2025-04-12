@@ -2,10 +2,16 @@ package com.example.chatapplication.presentation.ViewModel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.chatapplication.domain.use.LoginUseCase
+import com.example.chatapplication.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase
+) : BaseViewModel() {
 
     val emailState = mutableStateOf("")
     val emailerrorState = mutableStateOf("")
@@ -28,9 +34,25 @@ class LoginViewModel @Inject constructor() : ViewModel() {
         }
 
     }
-    fun register() {
+    fun login() {
         if (ValidateLogin()) {
-            //TODO
+            showLoading()
+            viewModelScope.launch {
+                try{
+                    val result = loginUseCase(emailState.value, passwordState.value ,
+                        onSuccess = {
+                            hideLoading()
+
+                        }, onError = {
+                            hideLoading()
+                            showError(it.message.toString())
+                        })
+                }catch (e : Exception){
+                    hideLoading()
+                    showError(e.message.toString())
+
+                }
+            }
         }
     }
 

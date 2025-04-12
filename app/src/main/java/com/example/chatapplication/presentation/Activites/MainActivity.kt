@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.chatapplication.constants.Destinations
 import com.example.chatapplication.presentation.Screens.Auth.LoginScreen
 import com.example.chatapplication.presentation.Screens.Auth.RegisterScreen
+import com.example.chatapplication.presentation.Screens.home.HomeScreen
 import com.example.chatapplication.presentation.Screens.splash.SplashScreen
 import com.example.chatapplication.presentation.theme.ChatApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,6 +56,9 @@ fun NavGraph(modifier: Modifier = Modifier) {
         }
         composable(Destinations.SIGN_UP) {
             RegisterScreen(navController = navController)
+        }
+        composable(Destinations.HOME) {
+            HomeScreen(navController = navController)
         }
     }
 

@@ -26,44 +26,55 @@ import androidx.navigation.NavController
 import com.example.chatapplication.R
 import com.example.chatapplication.presentation.ViewModel.LoginViewModel
 import com.example.chatapplication.presentation.ViewModel.RegisterViewModel
+import com.example.chatapplication.presentation.base.BaseComposable
 import com.example.chatapplication.presentation.componant.AuthButtons
 import com.example.chatapplication.presentation.componant.ChatAuthTextField
 import com.example.chatapplication.presentation.componant.TopBar
 
 @Composable
-fun RegisterScreen(modifier: Modifier = Modifier , navController:NavController , viewModel: RegisterViewModel = hiltViewModel()) {
-    Scaffold(
-        topBar = { TopBar(title = "Register" , hasButtonBack = true) }
-    ) { innerPadding ->
-        innerPadding
-        Column(
-            modifier = modifier.fillMaxSize()
-                .paint(
-                    painter = painterResource(id = R.drawable.background1),
-                    contentScale = ContentScale.Crop
+fun RegisterScreen(modifier: Modifier = Modifier , navController:NavController ,
+                   viewModel: RegisterViewModel = hiltViewModel()) {
+    BaseComposable<RegisterViewModel> {
+        Scaffold(
+            topBar = { TopBar(title = "Register", hasButtonBack = true) }
+        ) { innerPadding ->
+            innerPadding
+            Column(
+                modifier = modifier.fillMaxSize()
+                    .paint(
+                        painter = painterResource(id = R.drawable.background1),
+                        contentScale = ContentScale.Crop
+                    ), horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.fillMaxHeight(.4F))
+                Spacer(modifier = Modifier.padding(10.dp))
+                ChatAuthTextField(
+                    modifier,
+                    state = viewModel.emailState,
+                    error = viewModel.emailerrorState.value,
+                    label = "Email"
                 )
-            , horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.fillMaxHeight(.4F))
-            Spacer(modifier = Modifier.padding(10.dp))
-            ChatAuthTextField(modifier ,
-                state = viewModel.emailState ,
-                error = viewModel.emailerrorState.value ,
-                label = "Email")
-            Spacer(modifier = Modifier.height(10.dp))
-            ChatAuthTextField(modifier ,
-                state = viewModel.usernameState ,
-                error = viewModel.usernameerrorState.value ,
-                label = "Username")
-            Spacer(modifier = Modifier.height(10.dp))
-            ChatAuthTextField(modifier ,
-                state = viewModel.passwordState ,
-                error = viewModel.passworderrorState.value ,
-                label = "Password")
-            Spacer(modifier = Modifier.padding(10.dp))
-            AuthButtons("Sign up" , onClick = { /*TODO*/ })
+                Spacer(modifier = Modifier.height(10.dp))
+                ChatAuthTextField(
+                    modifier,
+                    state = viewModel.usernameState,
+                    error = viewModel.usernameerrorState.value,
+                    label = "Username"
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                ChatAuthTextField(
+                    modifier,
+                    state = viewModel.passwordState,
+                    error = viewModel.passworderrorState.value,
+                    label = "Password"
+                )
+                Spacer(modifier = Modifier.padding(10.dp))
+                AuthButtons("Sign up", onClick = {
+                    viewModel.register()
+                })
 
+            }
         }
     }
-}
 
+}
