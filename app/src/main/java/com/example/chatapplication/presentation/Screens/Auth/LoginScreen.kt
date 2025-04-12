@@ -25,52 +25,61 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.chatapplication.R
 import com.example.chatapplication.presentation.ViewModel.LoginViewModel
+import com.example.chatapplication.presentation.base.BaseComposable
 import com.example.chatapplication.presentation.componant.AuthButtons
 import com.example.chatapplication.presentation.componant.ChatAuthTextField
 import com.example.chatapplication.presentation.componant.TopBar
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier , navController:NavController , viewModel: LoginViewModel = hiltViewModel()) {
-    Scaffold(
-        topBar = { TopBar(title = "Login") }
-    ) { innerPadding ->
-        Column(
-            modifier = modifier.fillMaxSize().padding(innerPadding)
-                .paint(
-                    painter = painterResource(id = R.drawable.background1),
-                    contentScale = ContentScale.Crop
+fun LoginScreen(modifier: Modifier = Modifier , navController:NavController) {
+    BaseComposable<LoginViewModel> {viewModel ->
+        Scaffold(
+            topBar = { TopBar(title = "Login") }
+        ) { innerPadding ->
+            Column(
+                modifier = modifier.fillMaxSize().padding(innerPadding)
+                    .paint(
+                        painter = painterResource(id = R.drawable.background1),
+                        contentScale = ContentScale.Crop
+                    ), horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.fillMaxHeight(.4F))
+                Text(
+                    text = "Welcome Back! ", fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black, modifier = modifier.align(Alignment.Start)
+                        .padding(12.dp)
                 )
-            , horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.fillMaxHeight(.4F))
-            Text(text = "Welcome Back! " , fontSize = 30.sp ,
-                fontWeight = FontWeight.Bold ,
-                color = Color.Black , modifier = modifier.align(Alignment.Start)
-                    .padding(12.dp))
-            Spacer(modifier = Modifier.padding(10.dp))
-            ChatAuthTextField(modifier ,
-                state = viewModel.emailState ,
-                error = viewModel.emailerrorState.value ,
-                label = "Email")
-            Spacer(modifier = Modifier.height(10.dp))
-            ChatAuthTextField(modifier ,
-                state = viewModel.passwordState ,
-                error = viewModel.passworderrorState.value ,
-                label = "Password")
-            Spacer(modifier = Modifier.padding(10.dp))
-            AuthButtons("Login" , onClick = { /*TODO*/ })
-            Spacer(modifier = Modifier.padding(10.dp))
-            Text(text = "or create account" ,
-                color = Color.Black ,
-                modifier = modifier.align(Alignment.CenterHorizontally)
-                    .clickable {
-                        navController.navigate("sign_up"){
+                Spacer(modifier = Modifier.padding(10.dp))
+                ChatAuthTextField(
+                    modifier,
+                    state = viewModel.emailState,
+                    error = viewModel.emailerrorState.value,
+                    label = "Email"
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                ChatAuthTextField(
+                    modifier,
+                    state = viewModel.passwordState,
+                    error = viewModel.passworderrorState.value,
+                    label = "Password"
+                )
+                Spacer(modifier = Modifier.padding(10.dp))
+                AuthButtons("Login", onClick = {
+                    viewModel.login()
+                })
+                Spacer(modifier = Modifier.padding(10.dp))
+                Text(text = "or create account",
+                    color = Color.Black,
+                    modifier = modifier.align(Alignment.CenterHorizontally)
+                        .clickable {
+                            navController.navigate("sign_up") {
 
-                        }
+                            }
 
-                    })
+                        })
 
+            }
         }
     }
 }
-
