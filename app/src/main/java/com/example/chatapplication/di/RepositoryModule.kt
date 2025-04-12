@@ -7,6 +7,8 @@ import com.example.chatapplication.domain.repository.AuthRepository
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,8 +27,15 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun ProvideAuthOnlineDataSource(auth: FirebaseAuth): AuthOnlineDataSource {
-        return AuthOnlineDataSourceImpl(auth)
+    fun providefirebaseStore(): FirebaseFirestore {
+        return Firebase.firestore
+    }
+
+
+    @Provides
+    @Singleton
+    fun ProvideAuthOnlineDataSource(auth: FirebaseAuth , firestore: FirebaseFirestore): AuthOnlineDataSource {
+        return AuthOnlineDataSourceImpl(auth , firestore)
     }
 
     @Provides

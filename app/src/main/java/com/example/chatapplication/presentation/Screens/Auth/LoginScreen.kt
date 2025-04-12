@@ -29,6 +29,7 @@ import com.example.chatapplication.presentation.base.BaseComposable
 import com.example.chatapplication.presentation.componant.AuthButtons
 import com.example.chatapplication.presentation.componant.ChatAuthTextField
 import com.example.chatapplication.presentation.componant.TopBar
+import com.example.chatapplication.presentation.utils.LogInNavigation
 
 @Composable
 fun LoginScreen(modifier: Modifier = Modifier , navController:NavController) {
@@ -37,7 +38,9 @@ fun LoginScreen(modifier: Modifier = Modifier , navController:NavController) {
             topBar = { TopBar(title = "Login") }
         ) { innerPadding ->
             Column(
-                modifier = modifier.fillMaxSize().padding(innerPadding)
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
                     .paint(
                         painter = painterResource(id = R.drawable.background1),
                         contentScale = ContentScale.Crop
@@ -47,7 +50,8 @@ fun LoginScreen(modifier: Modifier = Modifier , navController:NavController) {
                 Text(
                     text = "Welcome Back! ", fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black, modifier = modifier.align(Alignment.Start)
+                    color = Color.Black, modifier = modifier
+                        .align(Alignment.Start)
                         .padding(12.dp)
                 )
                 Spacer(modifier = Modifier.padding(10.dp))
@@ -71,14 +75,30 @@ fun LoginScreen(modifier: Modifier = Modifier , navController:NavController) {
                 Spacer(modifier = Modifier.padding(10.dp))
                 Text(text = "or create account",
                     color = Color.Black,
-                    modifier = modifier.align(Alignment.CenterHorizontally)
+                    modifier = modifier
+                        .align(Alignment.CenterHorizontally)
                         .clickable {
                             navController.navigate("sign_up") {
 
                             }
-
                         })
 
+            }
+        }
+        when (viewModel.navigation.value) {
+            LogInNavigation.Home -> {
+                navController.clearBackStack("sign_in")
+                navController.navigate("home"){
+                    popUpTo("sign_in"){
+                        inclusive = true
+                    }
+                }
+                viewModel.navigation.value = LogInNavigation.Idle
+
+            }
+            LogInNavigation.Idle -> {}
+            LogInNavigation.NavigationUp -> {
+                navController.navigateUp()
             }
         }
     }

@@ -24,23 +24,28 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.chatapplication.R
+import com.example.chatapplication.constants.Destinations
 import com.example.chatapplication.presentation.ViewModel.LoginViewModel
 import com.example.chatapplication.presentation.ViewModel.RegisterViewModel
 import com.example.chatapplication.presentation.base.BaseComposable
 import com.example.chatapplication.presentation.componant.AuthButtons
 import com.example.chatapplication.presentation.componant.ChatAuthTextField
 import com.example.chatapplication.presentation.componant.TopBar
+import com.example.chatapplication.presentation.utils.RegisterNavigation
 
 @Composable
 fun RegisterScreen(modifier: Modifier = Modifier , navController:NavController ,
                    viewModel: RegisterViewModel = hiltViewModel()) {
     BaseComposable<RegisterViewModel> {
         Scaffold(
-            topBar = { TopBar(title = "Register", hasButtonBack = true) }
+            topBar = { TopBar(title = "Register", hasButtonBack = true){
+                viewModel.navigateUp()
+            } }
         ) { innerPadding ->
             innerPadding
             Column(
-                modifier = modifier.fillMaxSize()
+                modifier = modifier
+                    .fillMaxSize()
                     .paint(
                         painter = painterResource(id = R.drawable.background1),
                         contentScale = ContentScale.Crop
@@ -73,6 +78,21 @@ fun RegisterScreen(modifier: Modifier = Modifier , navController:NavController ,
                     viewModel.register()
                 })
 
+            }
+            when (viewModel.navigation.value) {
+                RegisterNavigation.Home -> {
+                    navController.clearBackStack(Destinations.SIGN_IN)
+                    navController.navigate(Destinations.HOME){
+                        popUpTo(Destinations.SIGN_IN){
+                            inclusive = true
+                        }
+                    }
+                    viewModel.navigation.value = RegisterNavigation.Idle
+                }
+                RegisterNavigation.Idle -> {}
+                RegisterNavigation.NavigationUp -> {
+                    navController.navigateUp()
+                }
             }
         }
     }

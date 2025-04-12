@@ -21,7 +21,7 @@ import com.example.chatapplication.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(hasButtonBack : Boolean = false , title : String) {
+fun TopBar(hasButtonBack : Boolean = false , title : String , onClick : () -> Unit = {}) {
     CenterAlignedTopAppBar(
         title = {
             Text(text = title)
@@ -31,6 +31,7 @@ fun TopBar(hasButtonBack : Boolean = false , title : String) {
                     painter = painterResource(id = R.drawable.back),
                     contentDescription = "Back",
                     modifier = Modifier.padding(8.dp).clickable {
+                        onClick?.invoke()
 
 
                     }
