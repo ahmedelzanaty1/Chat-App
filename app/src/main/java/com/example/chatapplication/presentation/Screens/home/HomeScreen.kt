@@ -24,10 +24,12 @@ import com.example.chatapplication.presentation.theme.mainblue
 fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
     BaseComposable<HomeViewModel> { viewModel ->
         Scaffold(topBar = { TopBar(title = "Home") } , floatingActionButton = {
-            FloatingActionButton(onClick = {} ,
+            FloatingActionButton(onClick = {
+                navController.navigate("add_room")
+            } ,
                 containerColor = mainblue ,
                 contentColor = Color.White , shape = CircleShape){
-                Image(painter = painterResource(id = R.drawable.ic_forward) ,
+                Image(painter = painterResource(id = R.drawable.add_ic) ,
                     contentDescription = "")
             }
         }) {innerpadding ->
