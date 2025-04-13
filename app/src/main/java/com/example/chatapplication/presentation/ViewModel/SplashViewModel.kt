@@ -25,16 +25,21 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch {
             delay(3000)
             val auth = Firebase.auth
-            auth.currentUser?.uid.let {
-                getuser(it!! ,
+            val uid = auth.currentUser?.uid
+            if (uid != null) {
+                getuser(uid,
                     onSuccess = {
                         navigation.value = SplashNavigation.Home
-                    }, onError = {
+                    },
+                    onError = {
                         navigation.value = SplashNavigation.Login
-                    })
-
+                    }
+                )
+            } else {
+                navigation.value = SplashNavigation.Login
             }
             isSplashFinish = true
         }
+
     }
 }
