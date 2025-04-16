@@ -44,7 +44,7 @@ class LoginViewModel @Inject constructor(
             showLoading()
             viewModelScope.launch {
                 try{
-                    val result = loginUseCase(emailState.value, passwordState.value ,
+                    loginUseCase(emailState.value, passwordState.value ,
                         onSuccess = {uid : String ->
                             hideLoading()
                             launch {

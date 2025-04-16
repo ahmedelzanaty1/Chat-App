@@ -1,5 +1,6 @@
 package com.example.chatapplication.presentation.Screens.addroom
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -31,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.chatapplication.R
+import com.example.chatapplication.constants.Destinations
 import com.example.chatapplication.presentation.ViewModel.AddRoomViewModel
 import com.example.chatapplication.presentation.base.BaseComposable
 import com.example.chatapplication.presentation.componant.ChatAuthTextField
@@ -41,6 +44,15 @@ import com.example.chatapplication.presentation.theme.mainblue
 @Composable
 fun AddRoomScreen(navController: NavController,modifier: Modifier = Modifier) {
     BaseComposable<AddRoomViewModel> { viewModel ->
+        LaunchedEffect(viewModel.isDone.value) {
+            if (viewModel.isDone.value) {
+                Log.d("DEBUG", "IsDone: ${viewModel.isDone.value}")
+                navController.navigate(Destinations.HOME) {
+                    popUpTo(0)
+                    launchSingleTop = true
+                }
+            }
+        }
         Scaffold(
             topBar = {
                 TopBar(title = "Chat Application", hasButtonBack = true, onClick = {
@@ -133,9 +145,10 @@ fun AddRoomScreen(navController: NavController,modifier: Modifier = Modifier) {
                 }
 
             }
-            if (viewModel.isDone.value){
-                navController.navigateUp()
-            }
+//            if (viewModel.isDone.value){
+//                navController.navigate(Destinations.HOME)
+//
+//            }
 
         }
     }

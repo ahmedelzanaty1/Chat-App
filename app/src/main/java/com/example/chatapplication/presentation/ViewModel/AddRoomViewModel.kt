@@ -2,6 +2,8 @@ package com.example.chatapplication.presentation.ViewModel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.example.chatapplication.constants.Destinations
 import com.example.chatapplication.domain.entity.Room
 import com.example.chatapplication.domain.use.AddRoomUseCse
 import com.example.chatapplication.presentation.Screens.addroom.entity.Category
@@ -40,24 +42,28 @@ fun Validate() : Boolean{
     }
     return true
 }
-    fun addRoom(){
-        if (Validate()){
+    fun addRoom() {
+        if (Validate()) {
             viewModelScope.launch {
                 showLoading()
-                val room = Room(name = roomNameState.value , description = roomDescState.value
-                    ,categoryId = categorySelected.value , categoryName = categoryNameState.value)
-                addRoom(room , onSuccess = {
+                val room = Room(
+                    name = roomNameState.value,
+                    description = roomDescState.value,
+                    categoryId = categorySelected.value,
+                    categoryName = categoryNameState.value,
+                    userId = "currentUserId"
+                )
+                addRoom(room, onSuccess = {
                     hideLoading()
                     isDone.value = true
-                } , onError = {
+                }, onError = {
                     hideLoading()
                     showError(it.toString())
                 })
-
             }
         }
-
     }
+
 
 
 }

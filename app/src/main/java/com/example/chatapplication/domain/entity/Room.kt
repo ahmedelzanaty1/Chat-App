@@ -3,6 +3,7 @@ package com.example.chatapplication.domain.entity
 data class Room(
     var id: String = "",
     val name: String = "",
+    val userId: String = "",
     val description: String = "",
     val categoryName: String = "",
     val categoryId: String = ""
