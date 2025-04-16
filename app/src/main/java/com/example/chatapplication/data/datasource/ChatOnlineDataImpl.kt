@@ -26,4 +26,24 @@ class ChatOnlineDataImpl(
 
         }
     }
+
+    override suspend fun listenerRoom(
+        onSuccess: (room: List<Room>) -> Unit,
+        onError: (throwable: Throwable) -> Unit
+    ) {
+        try {
+            val collectionRef = firestore.collection(Room.COLLECTION_NAME)
+            collectionRef.addSnapshotListener { value, error ->
+                if (error != null) {
+                    onError.invoke(error)
+                    return@addSnapshotListener
+                }
+                onSuccess(value?.toObjects(Room::class.java) ?: emptyList())
+            }
+
+        }catch (e : Exception){
+            onError.invoke(e)
+
+        }
+    }
 }

@@ -64,6 +64,7 @@ class RegisterViewModel @Inject constructor(
                                    adduser(newuser, onSuccess = {
                                        hideLoading()
                                        navigation.value = RegisterNavigation.Home
+
                                    }, onError = {
                                        hideLoading()
                                        showError(it.message.toString())

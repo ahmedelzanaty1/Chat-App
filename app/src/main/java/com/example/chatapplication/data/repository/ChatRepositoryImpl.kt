@@ -15,4 +15,12 @@ class ChatRepositoryImpl(
         chatOnlineDataSource.createRoom(room, onSuccess, onError)
 
     }
+
+    override suspend fun listenerRoom(
+        onSuccess: (room: List<Room>) -> Unit,
+        onError: (throwable: Throwable) -> Unit
+    ) {
+        chatOnlineDataSource.listenerRoom(onSuccess, onError)
+
+    }
 }
