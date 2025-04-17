@@ -44,7 +44,10 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                     contentScale = ContentScale.Crop
                 )
             ) {
-               HomeLazyVerticalGrid(homeViewModel = viewModel , modifier = modifier.padding(innerpadding))
+               HomeLazyVerticalGrid(homeViewModel = viewModel , modifier = modifier.padding(innerpadding)){
+                   room ->
+                   navController.navigate("chat_room/${room.id}")
+               }
             }
 
         }
