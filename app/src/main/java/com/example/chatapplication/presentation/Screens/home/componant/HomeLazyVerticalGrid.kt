@@ -1,6 +1,7 @@
 package com.example.chatapplication.presentation.Screens.home.componant
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -24,10 +25,11 @@ import com.example.chatapplication.presentation.ViewModel.HomeViewModel
 import com.example.chatapplication.presentation.theme.mainblue
 
 @Composable
-fun HomeLazyVerticalGrid(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
+fun HomeLazyVerticalGrid(homeViewModel: HomeViewModel, modifier: Modifier = Modifier
+                         , onRoomClick: (room:Room) -> Unit) {
     LazyVerticalGrid(columns = GridCells.Fixed(2), modifier = modifier.padding(2.dp)) {
-        items(homeViewModel.roomliststate.size) { index ->
-            val room = homeViewModel.roomliststate[index]
+        items(homeViewModel.roomliststate.size) { room ->
+            val room = homeViewModel.roomliststate[room]
             val category = try {
                 Category.fromId(room.categoryId)
             } catch (e: IllegalArgumentException) {
@@ -36,7 +38,9 @@ fun HomeLazyVerticalGrid(homeViewModel: HomeViewModel, modifier: Modifier = Modi
 
             Card(
                 colors = CardDefaults.cardColors(containerColor = Color.White),
-                modifier = modifier.padding(3.dp).size(200.dp)
+                modifier = modifier.padding(3.dp).size(200.dp).clickable {
+                    onRoomClick(room)
+                }
             ) {
                 Column(
                     modifier = Modifier,

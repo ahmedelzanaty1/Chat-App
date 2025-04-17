@@ -7,6 +7,8 @@ object Destinations {
     const val HOME = "home"
     const val IDLE = "idle"
     const val ADD_ROOM = "add_room"
+    const val CHAT_ROOM = "chat_room"
+
 
 
 
